@@ -178,3 +178,31 @@ describe("Tree.postorder(callback)", () => {
     expect(valueArray).toEqual([1, 2, 4, 3, 6, 7, 9, 8, 5]);
   });
 });
+
+describe("Tree.height(value)", () => {
+  const t = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+  test("returns the height of a given node's value", () => {
+    expect(t.height(1)).toBe(0);
+    expect(t.height(3)).toBe(2);
+    expect(t.height(5)).toBe(3);
+  });
+
+  test("returns null if value is not found in the tree", () => {
+    expect(t.height(12)).toBeNull();
+  });
+});
+
+describe("Tree.depth(value)", () => {
+  const t = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+  test("returns the depth of a given node's value", () => {
+    expect(t.depth(1)).toBe(3);
+    expect(t.depth(4)).toBe(2);
+    expect(t.depth(5)).toBe(0);
+  });
+
+  test("returns null is the value is not found in the tree", () => {
+    expect(t.depth(12)).toBeNull();
+  });
+});

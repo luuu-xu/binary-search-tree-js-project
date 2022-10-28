@@ -217,6 +217,37 @@ function Tree(array) {
     return postorderRec(this.root, callback);
   }
 
+  function height(value) {
+    function heightRec(node) {
+      // Base case: node is empty.
+      if (!node) {
+        return -1;
+      } else {
+        const leftHeight = heightRec(node.left);
+        const rightHeight = heightRec(node.right);
+        return leftHeight >= rightHeight ? leftHeight + 1 : rightHeight + 1;
+      }
+    }
+    return this.find(value) ? heightRec(this.find(value)) : null;
+  }
+
+  function depth(value) {
+    function depthRec(node, value, depth) {
+      // Base case: node is empty or node.data is equal to the value.
+      if (!node || node.data === value) {
+        return depth;
+      } 
+      // Traverse to the left if value is smaller than the node data, depth plus 1.
+      if (value < node.data) {
+        return depthRec(node.left, value, depth + 1);
+      // To the right otherwise.
+      } else {
+        return depthRec(node.right, value, depth + 1);
+      }
+    }
+    return this.find(value) ? depthRec(this.root, value, 0) : null;
+  }
+
   return {
     root: buildTree(array),
     prettyPrint,
@@ -227,7 +258,9 @@ function Tree(array) {
     levelOrder,
     inorder,
     preorder,
-    postorder
+    postorder,
+    height,
+    depth
   }
 }
 
