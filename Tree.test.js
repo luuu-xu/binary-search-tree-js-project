@@ -124,7 +124,7 @@ describe("Tree.find(value)", () => {
 
 describe("Tree.levelOrder(callback)", () => {
   const t = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-  t.prettyPrint();
+  // t.prettyPrint();
 
   test("returns an array of values in breadth-first order if callback is not provided", () => {
     expect(t.levelOrder()).toEqual([5, 3, 8, 2, 4, 7, 9, 1, 6]);
@@ -205,4 +205,30 @@ describe("Tree.depth(value)", () => {
   test("returns null is the value is not found in the tree", () => {
     expect(t.depth(12)).toBeNull();
   });
+});
+
+describe("Tree.isBalanced()", () => {
+  const t = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+  test("returns true if the tree is balanced", () => {
+    expect(t.isBalanced()).toBeTruthy();
+  });
+
+  test("returns false if the tree is not balanced", () => {
+    t.insert(10);
+    t.insert(11);
+    expect(t.isBalanced()).toBeFalsy();
+  });
+});
+
+describe("Tree.rebalance()", () => {
+  const t = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  t.insert(10);
+  t.insert(11);
+
+  test("rebalances the tree", () => {
+    expect(t.isBalanced()).toBeFalsy();
+    t.rebalance();
+    expect(t.isBalanced()).toBeTruthy();
+  })
 });

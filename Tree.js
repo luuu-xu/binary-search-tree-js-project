@@ -43,22 +43,6 @@ function Tree(array) {
     return buildBST(array, 0, array.length - 1);
   }
 
-  // function insert(value) {
-  //   function insertBST(node, value, prev = this.root) {
-  //     if (!node) {
-  //       // console.log("node is null, adding the new node...");
-  //       prev.data > value ? prev.left = Node(value) : prev.right = Node(value);
-  //     } else {
-  //        if (node.data < value) {
-  //         insertBST(node.right, value, node);
-  //       } else if (node.data > value) {
-  //         insertBST(node.left, value, node);
-  //       }
-  //     }
-  //   }
-  //   this.root ? insertBST(this.root, value) : this.root = Node(value);
-  // }
-
   function insert(value) {
     function insertBSTRec(node, value) {
       // Base case: node is null, thus return a new Node(value).
@@ -248,6 +232,39 @@ function Tree(array) {
     return this.find(value) ? depthRec(this.root, value, 0) : null;
   }
 
+  function isBalanced() {
+    function heightRec(node) {
+      // Base case: node is empty.
+      if (!node) {
+        return -1;
+      } else {
+        const leftHeight = heightRec(node.left);
+        const rightHeight = heightRec(node.right);
+        return leftHeight >= rightHeight ? leftHeight + 1 : rightHeight + 1;
+      }
+    }
+
+    function isBalancedRec(node) {
+      // Base case: node is empty.
+      if (!node) {
+        return true;
+      } else {
+        const leftHeight = heightRec(node.left);
+        const rightHeight = heightRec(node.right);
+        // The node is balanced if left and right height difference is smaller or equal to 1.
+        const balancedResult = Math.abs(leftHeight - rightHeight) <= 1;
+        // The node is not "balanced" if either left or right side is not balanced.
+        return balancedResult && isBalancedRec(node.left) && isBalancedRec(node.right);
+      }
+    }
+    return isBalancedRec(this.root);
+  }
+
+  function rebalance() {
+    const valuesArray = this.levelOrder();
+    this.root = buildTree(valuesArray);
+  }
+
   return {
     root: buildTree(array),
     prettyPrint,
@@ -260,7 +277,9 @@ function Tree(array) {
     preorder,
     postorder,
     height,
-    depth
+    depth,
+    isBalanced,
+    rebalance
   }
 }
 
